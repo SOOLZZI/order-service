@@ -15,11 +15,12 @@ public class UserService {
 
     private final WebClient webClient;
 
-    public Long getUserId() {
+    public Long getUserId(String access_token) {
         // 1. spring webClient를 통해서 {baseUri}/api/auth를 호출
         Optional<UserResponse> userResponse = webClient.get()
                 .uri("/api/auth")
                 .accept(MediaType.APPLICATION_JSON)
+                .cookie("access_token", access_token)
                 .retrieve()
                 .bodyToMono(UserResponse.class)
                 .blockOptional();//mono 반환

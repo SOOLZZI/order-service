@@ -7,6 +7,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Collections;
+
 @Configuration
 public class APIConfig {
 
@@ -19,7 +21,7 @@ public class APIConfig {
                 .baseUrl(baseUrl)
                 .defaultCookie("cookieKey", "cookieValue")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                //.defaultUriVariables(Collections.singletonMap("url", baseUrl))
+                .defaultUriVariables(Collections.singletonMap("url", baseUrl))
                 .build();
     }
 }
