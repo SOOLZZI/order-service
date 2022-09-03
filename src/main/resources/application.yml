@@ -14,3 +14,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      auto-offset-reset: earliest
