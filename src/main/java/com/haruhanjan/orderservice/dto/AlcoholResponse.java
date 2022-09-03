@@ -1,10 +1,9 @@
 package com.haruhanjan.orderservice.dto;
 
-import com.haruhanjan.orderservice.entity.Alcohol_copy;
+import com.haruhanjan.orderservice.entity.Alcohol;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,8 +13,8 @@ public class AlcoholResponse {
     private String seller;
     private Integer price;
 
-    public Alcohol_copy toEntity() {
-        return new Alcohol_copy().builder()
+    public Alcohol toEntity() {
+        return new Alcohol().builder()
                 .name(name)
                 .seller(seller)
                 .price(price)
