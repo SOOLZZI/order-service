@@ -14,11 +14,11 @@ public class OrderItem {
     @Column(name="order_item_id")
     private Long id;
 
-    private Long productId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "alcohol_id")
+    private Alcohol productId;
 
     private Integer quantity;
-
-    private Integer price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="orders_id")
