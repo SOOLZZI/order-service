@@ -1,9 +1,7 @@
 package com.haruhanjan.orderservice.entity;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -17,7 +15,7 @@ public class Cart {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "alcohol_id")
-    private Alcohol productId;
+    private Alcohol alcohol;
 
     private Long userId;
 

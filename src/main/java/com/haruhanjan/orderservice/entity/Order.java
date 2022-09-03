@@ -1,9 +1,6 @@
 package com.haruhanjan.orderservice.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,13 +18,20 @@ public class Order {
     private Long userId;
 
     @Enumerated(EnumType.STRING)
-    private OrderState state;
+    private OrderState state = OrderState.COMPLETE_PAYMENT;
 
     private LocalDateTime orderDate;
 
+    // 최종 결제 금액? 아님 orderItem 계산한 총 금액?
     private Integer totalPrice;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
+
+    @Builder
+    public Order(Long userId, LocalDateTime orderDate) {
+        this.userId = userId;
+        this.orderDate = orderDate;
+    }
 
 }

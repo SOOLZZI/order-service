@@ -2,6 +2,7 @@ package com.haruhanjan.orderservice.service;
 
 import com.haruhanjan.orderservice.dto.AlcoholResponse;
 import com.haruhanjan.orderservice.dto.UserResponse;
+import com.haruhanjan.orderservice.entity.Alcohol;
 import com.haruhanjan.orderservice.repository.AlcoholRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -11,6 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import javax.persistence.EntityNotFoundException;
 import javax.swing.text.html.Option;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
@@ -34,10 +36,6 @@ public class InternalWebService {
                 .orElseThrow(RuntimeException::new)
                 .getId();
     }
-    // getAlcohol -> db 확인 -> 없으면 getAlcoholById 호출
-//    public AlcoholResponse getAlcohol(Long id){
-//        alcoholRepository.findById(id)
-//    }
 
     public AlcoholResponse getAlcoholById(Long id){
         AlcoholResponse alcoholResponse = webClient.get()
