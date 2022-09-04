@@ -14,9 +14,8 @@ public class CreateOrderRequestDto {
     private List<CreateOrderItemRequestDto> orderItemList; // alcoholId, quantity
     private LocalDateTime orderDate;
 
-    public Order toEntity(Long id){
+    public Order toEntity(){
         return Order.builder()
-                .userId(id)
                 .orderDate(orderDate)
                 .build();
     }

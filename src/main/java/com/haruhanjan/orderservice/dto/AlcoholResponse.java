@@ -9,12 +9,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class AlcoholResponse {
+    private Long id;
     private String name;
     private String seller;
     private Integer price;
 
     public Alcohol toEntity() {
-        return new Alcohol().builder()
+        return Alcohol.builder()
+                .originId(id)
                 .name(name)
                 .seller(seller)
                 .price(price)
