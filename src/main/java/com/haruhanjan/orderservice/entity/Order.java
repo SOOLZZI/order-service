@@ -1,18 +1,22 @@
 package com.haruhanjan.orderservice.entity;
 
+import com.haruhanjan.orderservice.dto.PatchOrderStateDto;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="orders")
+@Table(name = "orders")
+@Getter
 public class Order {
-    @Id @GeneratedValue
-    @Column(name="orders_id")
+    @Id
+    @GeneratedValue
+    @Column(name = "orders_id")
     private Long id;
 
     private Long userId;
@@ -34,4 +38,15 @@ public class Order {
         this.orderDate = orderDate;
     }
 
+    public void setUser(Long id) {
+        this.userId = id;
+    }
+
+    public void setTotalPrice(int price) {
+        this.totalPrice = price;
+    }
+
+    public void patchState(PatchOrderStateDto dto) {
+        Optional.ofNullable(dto.getOrderState()).ifPresent(s -> this.state = s);
+    }
 }

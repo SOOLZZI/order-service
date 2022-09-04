@@ -29,7 +29,4 @@ public class OrderItem {
         this.order = order;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 }
