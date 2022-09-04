@@ -1,24 +1,21 @@
 package com.haruhanjan.orderservice.dto;
 
 import com.haruhanjan.orderservice.entity.Alcohol;
+import com.haruhanjan.orderservice.entity.Order;
 import com.haruhanjan.orderservice.entity.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
+@Getter
 public class CreateOrderItemRequestDto {
-    @Getter
     private Long alcoholId;
     private Integer quantity;
 
-
-    public CreateOrderItemRequestDto(Long alcoholId, Integer quantity) {
-        this.alcoholId = alcoholId;
-        this.quantity = quantity;
-    }
-
-    public OrderItem toEntity() {
+    public OrderItem toEntity(Alcohol alcohol, Order order) {
         return OrderItem.builder()
+                .alcohol(alcohol)
+                .order(order)
                 .quantity(quantity)
                 .build();
     }

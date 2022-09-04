@@ -1,7 +1,7 @@
 package com.haruhanjan.orderservice.controller;
 
 import com.haruhanjan.orderservice.dto.CreateOrderRequestDto;
-import com.haruhanjan.orderservice.dto.OrderResponseDto;
+import com.haruhanjan.orderservice.dto.CreateOrderResponseDto;
 import com.haruhanjan.orderservice.dto.PatchOrderStateDto;
 import com.haruhanjan.orderservice.service.InternalWebService;
 import com.haruhanjan.orderservice.service.OrderService;
@@ -20,25 +20,25 @@ public class OrderController {
     private final InternalWebService internalWebService;
 
     @GetMapping
-    public ResponseEntity<List<OrderResponseDto>> getAll(@CookieValue String access_token) {
+    public ResponseEntity<List<CreateOrderResponseDto>> getAll(@CookieValue String access_token) {
         Long userId = internalWebService.getUserId(access_token);
-        List<OrderResponseDto> result = orderService.get(userId);
+        List<CreateOrderResponseDto> result = orderService.get(userId);
         return ResponseEntity.ok(result);
     }
 
     @PostMapping
-    public ResponseEntity<OrderResponseDto> post(@CookieValue String access_token,
-                                                 @RequestBody CreateOrderRequestDto dto) {
+    public ResponseEntity<CreateOrderResponseDto> post(@CookieValue String access_token,
+                                                       @RequestBody CreateOrderRequestDto dto) {
         Long userId = internalWebService.getUserId(access_token);
-        OrderResponseDto result = orderService.save(userId, dto);
+        CreateOrderResponseDto result = orderService.save(userId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderResponseDto> getOne(@CookieValue String access_token,
-                                                   @PathVariable Long id) {
+    public ResponseEntity<CreateOrderResponseDto> getOne(@CookieValue String access_token,
+                                                         @PathVariable Long id) {
         Long userId = internalWebService.getUserId(access_token);
-        OrderResponseDto result = orderService.getOne(userId, id);
+        CreateOrderResponseDto result = orderService.getOne(userId, id);
         return ResponseEntity.ok(result);
     }
 
