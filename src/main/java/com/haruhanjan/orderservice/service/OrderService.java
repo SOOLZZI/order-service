@@ -75,7 +75,7 @@ public class OrderService {
     }
 
     public OrderResponseDto getOne(Long userId, Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Order order = orderRepository.findByIdAndUserId(id,userId).orElseThrow(EntityNotFoundException::new);
         assert order.getUserId().equals(userId);
 
         List<OrderItemResponseDto> orderItemList = order.getOrderItems().stream()
@@ -95,7 +95,7 @@ public class OrderService {
     }
 
     public void patchState(Long userId, Long orderId, PatchOrderStateDto dto) {
-        Order target = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
+        Order target = orderRepository.findByIdAndUserId(orderId,userId).orElseThrow(EntityNotFoundException::new);
         target.patchState(dto);
     }
 }
