@@ -1,11 +1,14 @@
 package com.haruhanjan.orderservice.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cart {
 
@@ -20,4 +23,11 @@ public class Cart {
     private Long userId;
 
     private Integer quantity;
+
+    @Builder
+    public Cart(Alcohol alcohol, Long userId, Integer quantity) {
+        this.alcohol = alcohol;
+        this.userId = userId;
+        this.quantity = quantity;
+    }
 }
