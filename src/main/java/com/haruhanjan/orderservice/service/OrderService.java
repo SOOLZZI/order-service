@@ -7,15 +7,18 @@ import com.haruhanjan.orderservice.repository.AlcoholRepository;
 import com.haruhanjan.orderservice.repository.OrderItemRepository;
 import com.haruhanjan.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final OrderRepository orderRepository;
@@ -38,6 +41,9 @@ public class OrderService {
 
     public OrderResponseDto save(Long userId, CreateOrderRequestDto dto) {
         // order 생성
+        log.info("print requested dto: {}",dto.toString());
+        log.info("dto.toEntity(): {}",dto.toEntity());
+
         Order savedOrder = orderRepository.save(dto.toEntity());
         savedOrder.setUser(userId);
 
@@ -94,7 +100,11 @@ public class OrderService {
                 .build();
     }
 
+    @Transactional
     public void patchState(Long userId, Long orderId, PatchOrderStateDto dto) {
+        log.info("userId: {}", userId);
+        log.info("orderId: {}", orderId);
+
         Order target = orderRepository.findByIdAndUserId(orderId,userId).orElseThrow(EntityNotFoundException::new);
         target.patchState(dto);
     }

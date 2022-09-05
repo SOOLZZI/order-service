@@ -33,7 +33,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<OrderResponseDto> post(@CookieValue String access_token,
-                                                 @RequestBody CreateOrderRequestDto dto) {
+                                                 @RequestBody CreateOrderRequestDto dto) { // 200
         Long userId = internalWebService.getUserId(access_token);
         OrderResponseDto result = orderService.save(userId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
@@ -50,7 +50,7 @@ public class OrderController {
     @PatchMapping("/{id}")
     public ResponseEntity<Void> patchState(@CookieValue String access_token,
                                            @PathVariable Long id,
-                                           @RequestBody PatchOrderStateDto dto) {
+                                           @RequestBody PatchOrderStateDto dto) { // 200
         Long userId = internalWebService.getUserId(access_token);
         orderService.patchState(userId, id, dto);
         return ResponseEntity.ok().build();
