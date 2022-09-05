@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@NoArgsConstructor//(access = AccessLevel.PROTECTED)
 public class Alcohol {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="alcohol_id")
@@ -16,7 +17,6 @@ public class Alcohol {
     private Long originId;
     private String name;
     private String seller;
-    @Getter
     private Integer price;
 
     @Builder
@@ -25,5 +25,9 @@ public class Alcohol {
         this.seller = seller;
         this.price = price;
         this.name = name;
+    }
+
+    public int getPrice(){
+        return this.price;
     }
 }

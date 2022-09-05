@@ -22,7 +22,7 @@ public class TestController {
     }
 
     @GetMapping("/alco")
-    public AlcoholResponse get(){
-        return internalWebService.getAlcoholById(1L);
+    public void get(){
+        log.debug(internalWebService.getAlcoholById(1L).getName());
     }
 }

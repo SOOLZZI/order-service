@@ -37,7 +37,7 @@ public class InternalWebService {
                 .getId();
     }
 
-    public AlcoholResponse getAlcoholById(Long id){
+    public Alcohol getAlcoholById(Long id){
         AlcoholResponse alcoholResponse = webClient.get()
                 .uri("/api/alcohol/"+id.toString())
                 .accept(MediaType.APPLICATION_JSON)
@@ -45,9 +45,7 @@ public class InternalWebService {
                 .bodyToMono(AlcoholResponse.class)
                 .blockOptional().orElseThrow(EntityNotFoundException::new);
 
-        alcoholRepository.save(alcoholResponse.toEntity());
-
-        return alcoholResponse;
+        return alcoholRepository.save(alcoholResponse.toEntity());
     }
 
 }

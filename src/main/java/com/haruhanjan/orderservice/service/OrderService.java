@@ -3,7 +3,6 @@ package com.haruhanjan.orderservice.service;
 import com.haruhanjan.orderservice.dto.*;
 import com.haruhanjan.orderservice.entity.Alcohol;
 import com.haruhanjan.orderservice.entity.Order;
-import com.haruhanjan.orderservice.entity.OrderItem;
 import com.haruhanjan.orderservice.repository.AlcoholRepository;
 import com.haruhanjan.orderservice.repository.OrderItemRepository;
 import com.haruhanjan.orderservice.repository.OrderRepository;
@@ -23,18 +22,21 @@ public class OrderService {
     private final AlcoholRepository alcoholRepository;
     private final InternalWebService internalWebService;
 
-    public List<CreateOrderResponseDto> get(Long userId) {
+    public List<AllOrderResponseDto> get(Long userId) {
         List<Order> orderList = orderRepository.findByUserId(userId).orElse(null);
         if (orderList==null)
             return null;
 
-        // 내일 할래...
         return orderList.stream()
-                .map()
+                .map(i -> {
+                    AllOrderResponseDto dto = new AllOrderResponseDto(i.getState().name(), i.getOrderDate(), i.getTotalPrice());
+                    dto.setAlcoholNameList(i.getOrderItems().stream().map(j->j.getAlcohol().getName()).collect(Collectors.toList()));
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 
-    public CreateOrderResponseDto save(Long userId, CreateOrderRequestDto dto) {
+    public OrderResponseDto save(Long userId, CreateOrderRequestDto dto) {
         // order 생성
         Order savedOrder = orderRepository.save(dto.toEntity());
         savedOrder.setUser(userId);
@@ -42,16 +44,17 @@ public class OrderService {
         // 개별 order item 저장
         List<OrderItemResponseDto> orderItemList = dto.getOrderItemList().stream()
                 .map(item -> {
-                    AlcoholResponse ar = internalWebService.getAlcoholById(item.getAlcoholId()).;
-                    Alcohol alcohol = alcoholRepository.findByOriginId(ar.getId()).orElseThrow(EntityNotFoundException::new),
+                    Alcohol alcohol = internalWebService.getAlcoholById(item.getAlcoholId());
 
                     orderItemRepository.save(item.toEntity(alcohol, savedOrder));
 
-                    return OrderItemResponseDto.builder()
+                    OrderItemResponseDto responseDto = OrderItemResponseDto.builder()
                             .quantity(item.getQuantity())
                             .alcoholId(item.getAlcoholId())
-                            .build()
-                            .setPrice(ar.getPrice() * item.getQuantity());
+                            .build();
+                    responseDto.setPrice(item.getQuantity()* alcohol.getPrice());
+
+                    return responseDto;
                 }).collect(Collectors.toList());
 
         // 전체 구매 금액 계산
@@ -62,8 +65,8 @@ public class OrderService {
         return makeOrderResponse(savedOrder, orderItemList);
     }
 
-    private CreateOrderResponseDto makeOrderResponse(Order order, List<OrderItemResponseDto> orderItemList) {
-        return CreateOrderResponseDto.builder()
+    private OrderResponseDto makeOrderResponse(Order order, List<OrderItemResponseDto> orderItemList) {
+        return OrderResponseDto.builder()
                 .orderDate(order.getOrderDate())
                 .state(order.getState().name())
                 .totalPrice(order.getTotalPrice())
@@ -71,7 +74,24 @@ public class OrderService {
                 .build();
     }
 
-    public CreateOrderResponseDto getOne(Long userId, Long id) {
+    public OrderResponseDto getOne(Long userId, Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        assert order.getUserId().equals(userId);
+
+        List<OrderItemResponseDto> orderItemList = order.getOrderItems().stream()
+                .map(i -> {
+                    OrderItemResponseDto dto = new OrderItemResponseDto(i.getAlcohol().getId(), i.getQuantity());
+                    dto.setPrice(i.getQuantity() * i.getAlcohol().getPrice());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+
+        return OrderResponseDto.builder()
+                .orderItemList(orderItemList)
+                .state(order.getState().name())
+                .orderDate(order.getOrderDate())
+                .totalPrice(order.getTotalPrice())
+                .build();
     }
 
     public void patchState(Long userId, Long orderId, PatchOrderStateDto dto) {

@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Setter
-@Getter
 public class CreateOrderItemRequestDto {
+    @Getter
     private Long alcoholId;
     private Integer quantity;
 
@@ -18,5 +18,9 @@ public class CreateOrderItemRequestDto {
                 .order(order)
                 .quantity(quantity)
                 .build();
+    }
+
+    public int getQuantity(){
+        return this.quantity;
     }
 }
