@@ -34,7 +34,12 @@ public class OrderService {
                 .map(i -> {
                     // TODO
                     AllOrderResponseDto dto = new AllOrderResponseDto(i.getState().name(), i.getOrderDate(), i.getTotalPrice());
-                    dto.setAlcoholNameList(i.getOrderItems().stream().map(j->j.getAlcohol().getName()).collect(Collectors.toList()));
+                    dto.setAlcoholNameList(i.getOrderItems()
+                            .stream()
+                            .map(j -> j.getAlcohol()
+                                    .getName())
+                            .collect(Collectors.toList())
+                    );
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -89,7 +94,6 @@ public class OrderService {
 
     public OrderResponseDto getOne(Long userId, Long id) {
         Order order = orderRepository.findByIdAndUserId(id,userId).orElseThrow(EntityNotFoundException::new);
-        assert order.getUserId().equals(userId);
 
         List<OrderItemResponseDto> orderItemList = order.getOrderItems().stream()
                 .map(i -> {
