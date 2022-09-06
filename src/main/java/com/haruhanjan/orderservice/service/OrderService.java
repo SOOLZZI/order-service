@@ -3,26 +3,26 @@ package com.haruhanjan.orderservice.service;
 import com.haruhanjan.orderservice.dto.*;
 import com.haruhanjan.orderservice.entity.Alcohol;
 import com.haruhanjan.orderservice.entity.Order;
-import com.haruhanjan.orderservice.repository.AlcoholRepository;
 import com.haruhanjan.orderservice.repository.OrderItemRepository;
 import com.haruhanjan.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final OrderRepository orderRepository;
-    private final AlcoholRepository alcoholRepository;
     private final InternalWebService internalWebService;
 
     public List<AllOrderResponseDto> get(Long userId) {
@@ -32,6 +32,7 @@ public class OrderService {
 
         return orderList.stream()
                 .map(i -> {
+                    // TODO
                     AllOrderResponseDto dto = new AllOrderResponseDto(i.getState().name(), i.getOrderDate(), i.getTotalPrice());
                     dto.setAlcoholNameList(i.getOrderItems().stream().map(j->j.getAlcohol().getName()).collect(Collectors.toList()));
                     return dto;
@@ -40,7 +41,7 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderResponseDto save(Long userId, CreateOrderRequestDto dto) {
+    public OrderResponseDto save(Long userId, @Valid CreateOrderRequestDto dto) {
         // order 생성
         log.info("userId: {}", userId);
         log.info("dto.toEntity(): {}",dto.toEntity());

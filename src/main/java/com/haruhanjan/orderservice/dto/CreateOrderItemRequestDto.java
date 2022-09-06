@@ -6,10 +6,15 @@ import com.haruhanjan.orderservice.entity.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 @Setter
 public class CreateOrderItemRequestDto {
     @Getter
+    @NotNull
     private Long alcoholId;
+    @Min(0)
     private Integer quantity;
 
     public OrderItem toEntity(Alcohol alcohol, Order order) {

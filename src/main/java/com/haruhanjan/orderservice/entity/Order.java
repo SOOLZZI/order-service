@@ -26,6 +26,7 @@ public class Order {
     private LocalDateTime orderDate;
 
     // 최종 결제 금액? 아님 orderItem 계산한 총 금액?
+    @Column(columnDefinition = "INT UNSIGNED")
     private Integer totalPrice;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
