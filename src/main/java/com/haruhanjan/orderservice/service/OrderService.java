@@ -39,9 +39,10 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public OrderResponseDto save(Long userId, CreateOrderRequestDto dto) {
         // order 생성
-        log.info("print requested dto: {}",dto.toString());
+        log.info("userId: {}", userId);
         log.info("dto.toEntity(): {}",dto.toEntity());
 
         Order savedOrder = orderRepository.save(dto.toEntity());
@@ -50,7 +51,7 @@ public class OrderService {
         // 개별 order item 저장
         List<OrderItemResponseDto> orderItemList = dto.getOrderItemList().stream()
                 .map(item -> {
-                    Alcohol alcohol = internalWebService.getAlcoholById(item.getAlcoholId());
+                    Alcohol alcohol = internalWebService.callApiGetAlcoholById(item.getAlcoholId());
 
                     orderItemRepository.save(item.toEntity(alcohol, savedOrder));
 
@@ -64,9 +65,14 @@ public class OrderService {
                 }).collect(Collectors.toList());
 
         // 전체 구매 금액 계산
-        AtomicInteger totalPrice = new AtomicInteger();
-        orderItemList.forEach(i -> totalPrice.addAndGet(i.getPrice()));
-        savedOrder.setTotalPrice(totalPrice.get());
+        int total = 0;
+
+        for(OrderItemResponseDto orderItem: orderItemList){
+            log.info("getPrice: {}",orderItem.getPrice());
+            total += orderItem.getPrice();
+        }
+        log.info("total price: {}",total);
+        savedOrder.setTotalPrice(total);
 
         return makeOrderResponse(savedOrder, orderItemList);
     }

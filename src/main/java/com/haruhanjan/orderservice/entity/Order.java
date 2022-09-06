@@ -14,8 +14,7 @@ import java.util.Optional;
 @Table(name = "orders")
 @Getter
 public class Order {
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orders_id")
     private Long id;
 
@@ -43,6 +42,7 @@ public class Order {
     }
 
     public void setTotalPrice(int price) {
+        System.out.println(price);
         this.totalPrice = price;
     }
 
