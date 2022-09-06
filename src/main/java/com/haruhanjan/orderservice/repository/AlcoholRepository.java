@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface AlcoholRepository extends JpaRepository<Alcohol, Long> {
     public Optional<Alcohol> findByOriginId(Long originId);
+
+    boolean existsAlcoholByOriginId(Long name);
 }

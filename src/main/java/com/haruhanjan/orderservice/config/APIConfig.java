@@ -24,4 +24,14 @@ public class APIConfig {
                 .defaultUriVariables(Collections.singletonMap("url", baseUrl))
                 .build();
     }
+
+    @Bean
+    public WebClient webClientAlcohol() {
+        return WebClient.builder()
+                .baseUrl("http://localhost:8082/")
+                .defaultCookie("cookieKey", "cookieValue")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .defaultUriVariables(Collections.singletonMap("url", baseUrl))
+                .build();
+    }
 }

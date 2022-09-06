@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.persistence.EntityNotFoundException;
-import javax.swing.text.html.Option;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
 public class InternalWebService {
 
     private final WebClient webClient;
+    private final WebClient webClientAlcohol;
+
     private final AlcoholRepository alcoholRepository;
 
     public Long getUserId(String access_token) {
@@ -37,15 +37,22 @@ public class InternalWebService {
                 .getId();
     }
 
-    public Alcohol getAlcoholById(Long id){
-        AlcoholResponse alcoholResponse = webClient.get()
+    public Alcohol getAlcoholById(AlcoholResponse ar){
+        if(alcoholRepository.existsAlcoholByOriginId(ar.getId()))
+            return alcoholRepository.findByOriginId(ar.getId()).orElse(null);
+        return alcoholRepository.save(ar.toEntity());
+
+    }
+
+    public Alcohol callApiGetAlcoholById(Long id){
+        AlcoholResponse alcoholResponse = webClientAlcohol.get()
                 .uri("/api/alcohol/"+id.toString())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(AlcoholResponse.class)
                 .blockOptional().orElseThrow(EntityNotFoundException::new);
 
-        return alcoholRepository.save(alcoholResponse.toEntity());
+        return getAlcoholById(alcoholResponse);
     }
 
 }
