@@ -27,7 +27,7 @@ public class OrderController {
         log.info("cookie access token: " + !access_token.isEmpty());
         Long userId = internalWebService.getUserId(access_token);
         log.info("userId: {}", userId);
-        List<AllOrderResponseDto> result = orderService.get(userId);
+        List<AllOrderResponseDto> result = orderService.getAll(userId);
         return ResponseEntity.ok(result);
     }
 
@@ -52,7 +52,7 @@ public class OrderController {
                                            @PathVariable Long id,
                                            @RequestBody PatchOrderStateDto dto) { // 200
         Long userId = internalWebService.getUserId(access_token);
-        orderService.patchState(userId, id, dto);
+        orderService.changeState(userId, id, dto);
         return ResponseEntity.ok().build();
     }
 }

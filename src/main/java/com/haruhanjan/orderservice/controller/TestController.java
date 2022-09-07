@@ -1,8 +1,6 @@
 package com.haruhanjan.orderservice.controller;
 
-import com.haruhanjan.orderservice.dto.AlcoholResponse;
 import com.haruhanjan.orderservice.service.InternalWebService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -21,8 +19,4 @@ public class TestController {
         return internalWebService.getUserId(access_token);
     }
 
-    @GetMapping("/alco")
-    public void get(){
-        log.debug(internalWebService.getAlcoholById(1L).getName());
-    }
 }
