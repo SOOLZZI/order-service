@@ -9,10 +9,16 @@ public class OrderItemResponseDto {
     private Integer quantity;
     private Integer price;
 
-    @Builder
     public OrderItemResponseDto(Long alcoholId, Integer quantity) {
         this.alcoholId = alcoholId;
         this.quantity = quantity;
+    }
+
+    @Builder
+    public OrderItemResponseDto(Long alcoholId, Integer quantity, Integer price) {
+        this.alcoholId = alcoholId;
+        this.quantity = quantity;
+        this.price = price;
     }
 
     public void setPrice(int price){
