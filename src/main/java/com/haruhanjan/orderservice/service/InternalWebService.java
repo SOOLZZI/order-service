@@ -2,7 +2,6 @@ package com.haruhanjan.orderservice.service;
 
 import com.haruhanjan.orderservice.dto.AlcoholResponse;
 import com.haruhanjan.orderservice.dto.UserResponse;
-import com.haruhanjan.orderservice.entity.Alcohol;
 import com.haruhanjan.orderservice.repository.AlcoholRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -37,22 +36,14 @@ public class InternalWebService {
                 .getId();
     }
 
-    public Alcohol getAlcoholById(AlcoholResponse ar){
-        if(alcoholRepository.existsAlcoholByOriginId(ar.getId()))
-            return alcoholRepository.findByOriginId(ar.getId()).orElse(null);
-        return alcoholRepository.save(ar.toEntity());
 
-    }
-
-    public Alcohol callApiGetAlcoholById(Long id){
-        AlcoholResponse alcoholResponse = webClientAlcohol.get()
+    public AlcoholResponse callApiGetAlcoholById(Long id){
+        return webClientAlcohol.get()
                 .uri("/api/alcohol/"+id.toString())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(AlcoholResponse.class)
                 .blockOptional().orElseThrow(EntityNotFoundException::new);
-
-        return getAlcoholById(alcoholResponse);
     }
 
 }
