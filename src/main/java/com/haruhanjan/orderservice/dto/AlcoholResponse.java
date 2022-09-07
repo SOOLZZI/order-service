@@ -16,7 +16,7 @@ public class AlcoholResponse {
 
     public Alcohol toEntity() {
         return Alcohol.builder()
-                .originId(id)
+                .id(id)
                 .name(name)
                 .seller(seller)
                 .price(price)
