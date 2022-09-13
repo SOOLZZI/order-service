@@ -5,6 +5,7 @@ import com.haruhanjan.orderservice.service.InternalWebService;
 import com.haruhanjan.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +21,13 @@ public class OrderController {
     private final InternalWebService internalWebService;
 
     @GetMapping
-    public ResponseEntity<List<SlimOrderResponseDto>> getAll(@CookieValue String access_token) { // 200
+    public ResponseEntity<List<SlimOrderResponseDto>> getAll(@CookieValue String access_token,
+                                                             Pageable pageable) { // 200
         log.info("cookie access token: " + !access_token.isEmpty());
         Long userId = internalWebService.getUserId(access_token);
         log.info("userId: {}", userId);
-        List<SlimOrderResponseDto> result = orderService.getAll(userId);
+        log.info("pageable: {}, {}, {}",pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
+        List<SlimOrderResponseDto> result = orderService.getAll(userId, pageable);
         return ResponseEntity.ok(result);
     }
 

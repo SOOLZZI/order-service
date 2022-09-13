@@ -9,6 +9,8 @@ import com.haruhanjan.orderservice.repository.OrderItemRepository;
 import com.haruhanjan.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -29,8 +31,8 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final OrderItemMapper orderItemMapper;
 
-    public List<SlimOrderResponseDto> getAll(Long userId) {
-        List<Order> orderList = orderRepository.findAllByUserId(userId);
+    public List<SlimOrderResponseDto> getAll(Long userId, Pageable pageable) {
+        Page<Order> orderList = orderRepository.findAllByUserId(userId, pageable);
         return orderList.stream()
                 .map(orderMapper::toResponseDTO)
                 .collect(Collectors.toList());
