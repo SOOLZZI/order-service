@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: alcohol-service
+  cloud:
+    kubernetes:
+      config:
+        enabled: true
+        name: authentication-configmap-dev
+      reload:
+        enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
