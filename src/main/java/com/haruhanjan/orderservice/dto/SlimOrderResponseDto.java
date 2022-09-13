@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class AllOrderResponseDto {
+public class SlimOrderResponseDto {
 
     private String state;
     private LocalDateTime orderDate;

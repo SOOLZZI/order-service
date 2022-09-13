@@ -29,7 +29,7 @@ public class OrderService {
 
     private final OrderMapper orderMapper;
 
-    public List<AllOrderResponseDto> getAll(Long userId) {
+    public List<SlimOrderResponseDto> getAll(Long userId) {
         List<Order> orderList = orderRepository.findAllByUserId(userId);
         return orderList.stream()
                 .map(orderMapper::toResponseDTO)

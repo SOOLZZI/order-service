@@ -1,9 +1,6 @@
 package com.haruhanjan.orderservice.controller;
 
-import com.haruhanjan.orderservice.dto.AllOrderResponseDto;
-import com.haruhanjan.orderservice.dto.CreateOrderRequestDto;
-import com.haruhanjan.orderservice.dto.OrderResponseDto;
-import com.haruhanjan.orderservice.dto.PatchOrderStateDto;
+import com.haruhanjan.orderservice.dto.*;
 import com.haruhanjan.orderservice.service.InternalWebService;
 import com.haruhanjan.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +20,11 @@ public class OrderController {
     private final InternalWebService internalWebService;
 
     @GetMapping
-    public ResponseEntity<List<AllOrderResponseDto>> getAll(@CookieValue String access_token) { // 200
+    public ResponseEntity<List<SlimOrderResponseDto>> getAll(@CookieValue String access_token) { // 200
         log.info("cookie access token: " + !access_token.isEmpty());
         Long userId = internalWebService.getUserId(access_token);
         log.info("userId: {}", userId);
-        List<AllOrderResponseDto> result = orderService.getAll(userId);
+        List<SlimOrderResponseDto> result = orderService.getAll(userId);
         return ResponseEntity.ok(result);
     }
 
