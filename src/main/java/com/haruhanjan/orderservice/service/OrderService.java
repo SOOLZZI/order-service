@@ -72,11 +72,7 @@ public class OrderService {
         Order order = orderRepository.findByIdAndUserId(orderId, userId).orElseThrow(EntityNotFoundException::new);
 
         List<OrderItemResponseDto> orderItemList = order.getOrderItems().stream()
-                .map(i -> {
-                    OrderItemResponseDto dto = new OrderItemResponseDto(i.getAlcohol().getId(), i.getQuantity());
-                    dto.setPrice(i.getQuantity() * i.getAlcohol().getPrice());
-                    return dto;
-                })
+                .map(orderItemMapper::toOrderItemResponseDto)
                 .collect(Collectors.toList());
 
         return orderMapper.toOrderResponseDto(order, orderItemList);
