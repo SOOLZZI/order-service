@@ -1,5 +1,6 @@
 package com.haruhanjan.orderservice.mapper;
 
+import com.haruhanjan.orderservice.dto.OrderItemResponseDto;
 import com.haruhanjan.orderservice.entity.OrderItem;
 import org.springframework.stereotype.Component;
 
@@ -19,4 +20,11 @@ public class OrderItemMapper {
                 .collect(Collectors.toList());
     }
 
+    public OrderItemResponseDto toOrderItemResponseDto(OrderItem orderItem) {
+        return OrderItemResponseDto.builder()
+                .quantity(orderItem.getQuantity())
+                .alcoholId(orderItem.getAlcohol().getId())
+                .price(orderItem.getAlcohol().getPrice() * orderItem.getQuantity())
+                .build();
+    }
 }

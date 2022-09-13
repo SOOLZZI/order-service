@@ -49,6 +49,8 @@ public class OrderController {
                                            @PathVariable Long id,
                                            @RequestBody PatchOrderStateDto dto) { // 200
         Long userId = internalWebService.getUserId(access_token);
+        log.info("userId: {}", userId);
+        log.info("orderId: {}", id);
         orderService.changeState(userId, id, dto);
         return ResponseEntity.ok().build();
     }

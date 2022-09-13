@@ -3,6 +3,7 @@ package com.haruhanjan.orderservice.service;
 import com.haruhanjan.orderservice.dto.*;
 import com.haruhanjan.orderservice.entity.Alcohol;
 import com.haruhanjan.orderservice.entity.Order;
+import com.haruhanjan.orderservice.mapper.OrderItemMapper;
 import com.haruhanjan.orderservice.mapper.OrderMapper;
 import com.haruhanjan.orderservice.repository.OrderItemRepository;
 import com.haruhanjan.orderservice.repository.OrderRepository;
@@ -25,9 +26,8 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final OrderRepository orderRepository;
     private final AlcoholService alcoholService;
-
-
     private final OrderMapper orderMapper;
+    private final OrderItemMapper orderItemMapper;
 
     public List<SlimOrderResponseDto> getAll(Long userId) {
         List<Order> orderList = orderRepository.findAllByUserId(userId);
@@ -39,9 +39,6 @@ public class OrderService {
     @Transactional
     public OrderResponseDto save(Long userId, @Valid CreateOrderRequestDto dto) {
         // order 생성
-        log.info("userId: {}", userId);
-        log.info("dto.toEntity(): {}", dto.toEntity());
-
         Order savedOrder = orderRepository.save(dto.toEntity());
         savedOrder.setUser(userId);
 
@@ -54,11 +51,7 @@ public class OrderService {
                     return item.toEntity(alcohol, savedOrder);
                 })
                 .map(orderItemRepository::save)
-                .map(e -> OrderItemResponseDto.builder()
-                        .quantity(e.getQuantity())
-                        .alcoholId(e.getAlcohol().getId())
-                        .price(e.getAlcohol().getPrice() * e.getQuantity())
-                        .build())
+                .map(orderItemMapper::toOrderItemResponseDto)
                 .collect(Collectors.toList());
 
         // 전체 구매 금액 계산
@@ -69,20 +62,11 @@ public class OrderService {
             total += orderItem.getPrice();
         }
 
-        log.info("total price: {}", total);
         savedOrder.setTotalPrice(total);
 
-        return makeOrderResponse(savedOrder, orderItemList);
+        return orderMapper.toOrderResponseDto(savedOrder, orderItemList);
     }
 
-    private OrderResponseDto makeOrderResponse(Order order, List<OrderItemResponseDto> orderItemList) {
-        return OrderResponseDto.builder()
-                .orderDate(order.getOrderDate())
-                .state(order.getState().name())
-                .totalPrice(order.getTotalPrice())
-                .orderItemList(orderItemList)
-                .build();
-    }
 
     public OrderResponseDto getOne(Long userId, Long orderId) {
         Order order = orderRepository.findByIdAndUserId(orderId, userId).orElseThrow(EntityNotFoundException::new);
@@ -95,20 +79,12 @@ public class OrderService {
                 })
                 .collect(Collectors.toList());
 
-        return OrderResponseDto.builder()
-                .orderItemList(orderItemList)
-                .state(order.getState().name())
-                .orderDate(order.getOrderDate())
-                .totalPrice(order.getTotalPrice())
-                .build();
+        return orderMapper.toOrderResponseDto(order, orderItemList);
     }
     // rest
 
     @Transactional
     public void changeState(Long userId, Long orderId, PatchOrderStateDto dto) {
-        log.info("userId: {}", userId);
-        log.info("orderId: {}", orderId);
-
         Order target = orderRepository.findByIdAndUserId(orderId, userId)
                 .orElseThrow(EntityNotFoundException::new);
         target.patchState(dto);
