@@ -2,21 +2,19 @@ package com.haruhanjan.orderservice.dto;
 
 import com.haruhanjan.orderservice.entity.Alcohol;
 import com.haruhanjan.orderservice.entity.Cart;
+import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Setter
+@Getter
 public class CartRequestDto {
-    @NotNull
-    private Alcohol alcohol;
-    @NotNull
-    private Long userId;
-    @Min(0)
-    private Integer quantity;
+    private List<CreateOrderItemRequestDto> cartItemList; // alcoholId, quantity
 
-    public Cart toEntity() {
+    public List<Cart> toEntity() {
         return Cart.builder()
                 .alcohol(alcohol)
                 .userId(userId)
