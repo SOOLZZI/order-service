@@ -3,15 +3,16 @@ package com.haruhanjan.orderservice.dto;
 import com.haruhanjan.orderservice.entity.Alcohol;
 import lombok.Builder;
 
+import java.util.List;
+
 public class CartResponseDto {
-    private Alcohol alcohol;
-    private Long userId;
-    private Integer quantity;
+
+    private List<CartItemResponseDto> items;
+    private Integer totalPrice;
 
     @Builder
-    public CartResponseDto(Alcohol alcohol, Long userId, Integer quantity) {
-        this.alcohol = alcohol;
-        this.userId = userId;
-        this.quantity = quantity;
+    public CartResponseDto(List<CartItemResponseDto> items, Integer totalPrice) {
+        this.items = items;
+        this.totalPrice = totalPrice;
     }
 }

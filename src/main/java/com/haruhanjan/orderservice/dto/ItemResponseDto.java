@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 public class ItemResponseDto {
     private Long alcoholId;
+    private String alcoholName;
     private Integer quantity;
     private Integer price;
 
@@ -15,13 +16,14 @@ public class ItemResponseDto {
     }
 
     @Builder
-    public ItemResponseDto(Long alcoholId, Integer quantity, Integer price) {
+    public ItemResponseDto(Long alcoholId, String alcoholName, Integer quantity, Integer price) {
         this.alcoholId = alcoholId;
+        this.alcoholName = alcoholName;
         this.quantity = quantity;
         this.price = price;
     }
 
-    public void setPrice(int price){
+    public void setPrice(int price) {
         this.price = price;
     }
 }

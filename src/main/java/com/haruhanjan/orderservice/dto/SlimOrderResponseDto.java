@@ -14,8 +14,6 @@ public class SlimOrderResponseDto {
     private LocalDateTime orderDate;
     private Integer totalPrice;
 
-
-
     private List<String> alcoholNameList;
 
 //    public AllOrderResponseDto(String state, LocalDateTime orderDate, Integer totalPrice) {
