@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,5 +42,9 @@ public class CartService {
     public void save(Long userId, @Valid CreateItemRequestDto dto) {
         Alcohol alcohol = alcoholService.findById(dto.getAlcoholId());
         cartRepository.save(cartMapper.toEntity(dto, alcohol, userId));
+    }
+    
+    public void delete(Long cartId){
+       cartRepository.deleteById(cartId);
     }
 }
