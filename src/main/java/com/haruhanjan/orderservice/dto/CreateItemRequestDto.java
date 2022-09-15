@@ -10,7 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Setter
-public class CreateOrderItemRequestDto {
+public class CreateItemRequestDto {
     @Getter
     @NotNull
     private Long alcoholId;

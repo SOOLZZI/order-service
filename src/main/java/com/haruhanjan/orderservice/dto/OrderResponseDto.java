@@ -11,10 +11,10 @@ public class OrderResponseDto {
     private String state;
     private LocalDateTime orderDate;
     private Integer totalPrice;
-    private List<OrderItemResponseDto> orderItemList;
+    private List<ItemResponseDto> orderItemList;
 
     @Builder
-    public OrderResponseDto(String state, LocalDateTime orderDate, Integer totalPrice, List<OrderItemResponseDto> orderItemList) {
+    public OrderResponseDto(String state, LocalDateTime orderDate, Integer totalPrice, List<ItemResponseDto> orderItemList) {
         this.state = state;
         this.orderDate = orderDate;
         this.totalPrice = totalPrice;

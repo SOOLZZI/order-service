@@ -34,10 +34,10 @@ import java.util.List;
  */
 
 @Setter
-@Validated(CreateOrderItemRequestDto.class)
+@Validated(CreateItemRequestDto.class)
 public class CreateOrderRequestDto {
     @Getter
-    private List<CreateOrderItemRequestDto> orderItemList; // alcoholId, quantity
+    private List<CreateItemRequestDto> orderItemList; // alcoholId, quantity
     private LocalDateTime orderDate;
 
     public Order toEntity(){

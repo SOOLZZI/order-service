@@ -47,7 +47,7 @@ public class OrderService {
         // 개별 order item 저장
         // List<OrderItem> 필요
         //Alcohol 필요
-        List<OrderItemResponseDto> orderItemList = dto.getOrderItemList().stream()
+        List<ItemResponseDto> orderItemList = dto.getOrderItemList().stream()
                 .map(item -> {
                     Alcohol alcohol = alcoholService.findById(item.getAlcoholId());
                     return item.toEntity(alcohol, savedOrder);
@@ -59,7 +59,7 @@ public class OrderService {
         // 전체 구매 금액 계산
         int total = 0;
 
-        for (OrderItemResponseDto orderItem : orderItemList) {
+        for (ItemResponseDto orderItem : orderItemList) {
             log.info("getPrice: {}", orderItem.getPrice());
             total += orderItem.getPrice();
         }
@@ -73,7 +73,7 @@ public class OrderService {
     public OrderResponseDto getOne(Long userId, Long orderId) {
         Order order = orderRepository.findByIdAndUserId(orderId, userId).orElseThrow(EntityNotFoundException::new);
 
-        List<OrderItemResponseDto> orderItemList = order.getOrderItems().stream()
+        List<ItemResponseDto> orderItemList = order.getOrderItems().stream()
                 .map(orderItemMapper::toOrderItemResponseDto)
                 .collect(Collectors.toList());
 

@@ -4,18 +4,18 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class OrderItemResponseDto {
+public class ItemResponseDto {
     private Long alcoholId;
     private Integer quantity;
     private Integer price;
 
-    public OrderItemResponseDto(Long alcoholId, Integer quantity) {
+    public ItemResponseDto(Long alcoholId, Integer quantity) {
         this.alcoholId = alcoholId;
         this.quantity = quantity;
     }
 
     @Builder
-    public OrderItemResponseDto(Long alcoholId, Integer quantity, Integer price) {
+    public ItemResponseDto(Long alcoholId, Integer quantity, Integer price) {
         this.alcoholId = alcoholId;
         this.quantity = quantity;
         this.price = price;
