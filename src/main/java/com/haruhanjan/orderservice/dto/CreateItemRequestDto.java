@@ -3,6 +3,7 @@ package com.haruhanjan.orderservice.dto;
 import com.haruhanjan.orderservice.entity.Alcohol;
 import com.haruhanjan.orderservice.entity.Order;
 import com.haruhanjan.orderservice.entity.OrderItem;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,5 +28,11 @@ public class CreateItemRequestDto {
 
     public int getQuantity(){
         return this.quantity;
+    }
+
+    @Builder
+    public CreateItemRequestDto(Long alcoholId, Integer quantity) {
+        this.alcoholId = alcoholId;
+        this.quantity = quantity;
     }
 }

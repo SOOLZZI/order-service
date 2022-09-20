@@ -1,6 +1,7 @@
 package com.haruhanjan.orderservice.dto;
 
 import com.haruhanjan.orderservice.entity.Order;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.validation.annotation.Validated;
@@ -44,5 +45,11 @@ public class CreateOrderRequestDto {
         return Order.builder()
                 .orderDate(orderDate)
                 .build();
+    }
+
+    @Builder
+    public CreateOrderRequestDto(List<CreateItemRequestDto> orderItemList, LocalDateTime orderDate) {
+        this.orderItemList = orderItemList;
+        this.orderDate = orderDate;
     }
 }
