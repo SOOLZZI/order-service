@@ -2,8 +2,10 @@ package com.haruhanjan.orderservice.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
+@SuperBuilder
 public class ItemResponseDto {
     private Long alcoholId;
     private String alcoholName;
