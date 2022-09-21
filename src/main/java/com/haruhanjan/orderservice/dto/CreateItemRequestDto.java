@@ -7,12 +7,14 @@ import com.haruhanjan.orderservice.entity.Order;
 import com.haruhanjan.orderservice.entity.OrderItem;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Setter
+@NoArgsConstructor
 public class CreateItemRequestDto {
     @Getter
     @NotNull

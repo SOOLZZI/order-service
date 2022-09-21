@@ -3,6 +3,7 @@ package com.haruhanjan.orderservice.dto;
 import com.haruhanjan.orderservice.entity.Order;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.validation.annotation.Validated;
 
@@ -36,6 +37,7 @@ import java.util.List;
 
 @Setter
 @Validated(CreateItemRequestDto.class)
+@NoArgsConstructor
 public class CreateOrderRequestDto {
     @Getter
     private List<CreateItemRequestDto> orderItemList; // alcoholId, quantity

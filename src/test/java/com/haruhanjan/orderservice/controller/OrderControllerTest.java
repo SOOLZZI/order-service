@@ -1,11 +1,7 @@
 package com.haruhanjan.orderservice.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.haruhanjan.orderservice.docs.RestDocTestConfiguration;
-import com.haruhanjan.orderservice.dto.CreateOrderRequestDto;
 import com.haruhanjan.orderservice.dto.OrderResponseDto;
-import com.haruhanjan.orderservice.dto.PatchOrderStateDto;
 import com.haruhanjan.orderservice.dto.SlimOrderResponseDto;
 import com.haruhanjan.orderservice.sample.SampleGenerator;
 import com.haruhanjan.orderservice.service.InternalWebService;
@@ -13,14 +9,11 @@ import com.haruhanjan.orderservice.service.OrderService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.stubbing.VoidAnswer1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.json.JsonContent;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -106,14 +99,14 @@ class OrderControllerTest {
     @Test
     @DisplayName("주문 저장 테스트")
     void postTest() throws Exception {
-        CreateOrderRequestDto dto = sg.createOrderRequestDto();
+        String json = sg.createOrderRequestJson();
         OrderResponseDto responseDto = sg.orderResponseDto();
         when(orderService.save(anyLong(),any())).thenReturn(responseDto);
 
         // content에서 json 파싱 문제..
         ResultActions result = this.mockMvc.perform(post("/api/order")
                 .accept(MediaType.APPLICATION_JSON)
-                .content(sg.toJson(dto))
+                .content(json)
                 .cookie(new Cookie("access_token", "value"))
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -126,12 +119,12 @@ class OrderControllerTest {
 
     @Test
     @DisplayName("주문 상태 수정 테스트")
-    void patchState() throws Exception {
-        PatchOrderStateDto dto = sg.patchOrderStateDto();
+    void patchStateTest() throws Exception {
+        String json = sg.patchOrderStateJson();
 
-        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.patch("/api/order/{id}",anyLong())
+        ResultActions result = this.mockMvc.perform(RestDocumentationRequestBuilders.patch("/api/order/{id}",anyInt())
                 .accept(MediaType.APPLICATION_JSON)
-                .content("{ orderState : "+dto.getOrderState().name()+" }")
+                .content(json)
                 .cookie(new Cookie("access_token", "value"))
                 .contentType(MediaType.APPLICATION_JSON));
 

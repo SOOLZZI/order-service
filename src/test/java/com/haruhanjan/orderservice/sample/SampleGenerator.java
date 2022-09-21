@@ -48,6 +48,30 @@ public class SampleGenerator {
                 .build();
     }
 
+    public String createOrderRequestJson(){
+        return "{\n" +
+                "    \"orderItemList\":[\n" +
+                "        {\n" +
+                "            \"alcoholId\": 1,\n" +
+                "            \"quantity\": 3\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"alcoholId\": 2,\n" +
+                "            \"quantity\": 1\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"alcoholId\": 3,\n" +
+                "            \"quantity\": 10\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"alcoholId\": 1,\n" +
+                "            \"quantity\": 10900\n" +
+                "        }\n" +
+                "    ],\n" +
+                "    \"orderDate\": \"2022-09-05T22:05:14\"\n" +
+                "}";
+    }
+
     public OrderResponseDto orderResponseDto(){
         List<ItemResponseDto> list = itemResponseDtoList();
         return OrderResponseDto.builder()
@@ -74,10 +98,10 @@ public class SampleGenerator {
                 .build();
     }
 
-    public PatchOrderStateDto patchOrderStateDto() {
-        return PatchOrderStateDto.builder()
-                .orderState(OrderState.CANCEL)
-                .build();
+    public String patchOrderStateJson() {
+        return "{\n" +
+                "  \"orderState\":\"CANCEL\"\n" +
+                "}";
     }
 
     public <T> String toJson(T data) throws JsonProcessingException {
