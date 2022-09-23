@@ -1,14 +1,17 @@
 package com.haruhanjan.orderservice.entity;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 @Getter
-@NoArgsConstructor//(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Alcohol {
     @Id
     @Column(name="alcohol_id")
@@ -16,6 +19,7 @@ public class Alcohol {
 
     private String name;
     private String seller;
+
     private Integer price;
 
     @Builder
@@ -26,7 +30,4 @@ public class Alcohol {
         this.name = name;
     }
 
-    public int getPrice(){
-        return this.price;
-    }
 }
