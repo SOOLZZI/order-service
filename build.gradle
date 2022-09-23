@@ -41,6 +41,11 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	// Prometheus
+	implementation "org.springframework.boot:spring-boot-starter-actuator"
+	implementation "io.micrometer:micrometer-registry-prometheus"
+
+	// 테스트 관련
 	implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes:1.1.10.RELEASE'
 	implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-config:1.1.10.RELEASE'
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.1.3'
