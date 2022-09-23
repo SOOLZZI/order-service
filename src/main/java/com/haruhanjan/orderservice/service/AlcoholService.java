@@ -14,7 +14,7 @@ import javax.persistence.EntityNotFoundException;
 public class AlcoholService {
 
     private final AlcoholRepository alcoholRepository;
-    InternalWebService internalWebService;
+    private final InternalWebService internalWebService;
 
     @KafkaListener(topics = "alcohol", groupId = "alcohol")
     public void consume(String message) { //1
