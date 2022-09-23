@@ -16,14 +16,15 @@ public class AlcoholService {
     private final AlcoholRepository alcoholRepository;
     private final InternalWebService internalWebService;
 
-    @KafkaListener(topics = "alcohol", groupId = "alcohol")
-    public void consume(String message) { //1
 
-        AlcoholResponse alcohol = internalWebService
-                .callApiGetAlcoholById(Long.parseLong(message));
-
-        alcoholRepository.save(alcohol.toEntity());
-    }
+//    @KafkaListener(topics = "alcohol", groupId = "alcohol")
+//    public void consume(String message) { //1
+//
+//        AlcoholResponse alcohol = internalWebService
+//                .callApiGetAlcoholById(Long.parseLong(message));
+//
+//        alcoholRepository.save(alcohol.toEntity());
+//    }
 
     public Alcohol findById(Long id) {
         return alcoholRepository.findById(id)
