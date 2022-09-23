@@ -23,7 +23,7 @@ public class CartMapper {
     }
 
     public CartItemResponseDto toCartResponseDto(Cart cart) {
-        return  CartItemResponseDto.builder()
+        return CartItemResponseDto.builder()
                 .cartId(cart.getId())
                 .alcoholId(cart.getAlcohol().getId())
                 .alcoholName(cart.getAlcohol().getName())

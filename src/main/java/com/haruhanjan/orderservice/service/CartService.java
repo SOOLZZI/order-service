@@ -33,7 +33,7 @@ public class CartService {
 
         // 총 금액 계산
         int totalPrice = cartItems.stream()
-                .mapToInt(ci -> ci.getPrice()).sum();
+                .mapToInt(ItemResponseDto::getPrice).sum();
 
         return new CartResponseDto(cartItems, totalPrice);
     }
